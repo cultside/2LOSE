@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>2LOSE</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 50px;
+      background: #222;
+      color: #fff;
+    }
+    .slot-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px;
+    }
+    .slot {
+      width: 80px;
+      height: 80px;
+      background: #000;
+      font-size: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 3px solid #fff;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+    .spinning {
+      animation: spin 0.1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotateX(0deg); }
+      100% { transform: rotateX(360deg); }
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎰 Слот с Анимацией 🎰</h1>
+  <div class="slot-container">
+    <div class="slot" id="slot1">❓</div>
+    <div class="slot" id="slot2">❓</div>
+    <div class="slot" id="slot3">❓</div>
+  </div>
+  <button onclick="spin()">Крутить!</button>
+  <div id="result"></div>
+
+  <script>
+    const symbols = ['🍒', '🍋', '🔔', '⭐', '💎'];
+    const slots = [
+      document.getElementById('slot1'),
+      document.getElementById('slot2'),
+      document.getElementById('slot3')
+    ];
+
+    function getRandomSymbol() {
+      return symbols[Math.floor(Math.random() * symbols.length)];
+    }
+
+    function spin() {
+      document.getElementById('result').textContent = '';
+
+      // Добавим класс анимации
+      slots.forEach(slot => {
+        slot.classList.add('spinning');
+        slot.textContent = '🎲';
+      });
+
+      // Останавливаем вращение через 1.5 секунды
+      setTimeout(() => {
+        const results = slots.map(() => getRandomSymbol());
+
+        slots.forEach((slot, i) => {
+          slot.classList.remove('spinning');
+          slot.textContent = results[i];
+        });
+
+        if (results[0] === results[1] && results[1] === results[2]) {
+          document.getElementById('result').textContent = '🎉 ПОБЕДА! 🎉';
+        } else {
+          document.getElementById('result').textContent = 'Попробуй снова!';
+        }
+      }, 1500);
+    }
+  </script>
+
+</body>
+</html>
